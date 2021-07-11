@@ -1,30 +1,39 @@
-import { useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import {incrementAction,decrementAction} from './action'
-import {storeData} from './todoAction'
-const App = () => {
-  
-  const state=useSelector(state=>state.incrementReducer.count)
-  const dispatch=useDispatch();
+import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Navbar from './Navbar';
+import Omor from './Omor';
+import Rafiul from './Rafiul';
+class App extends Component {
+  constructor(props) {
 
-  useEffect(async()=>{
-   await fetch('https://jsonplaceholder.typicode.com/todos')
-  .then(response => 
-    
-    response.json())
-  .then(json => {
-   dispatch(storeData(json))
-    console.log(json)
-  })
-  },[])
+    super(props)
+    this.state = {
+      name: "kibria",
+      phone: ""
+    };
+  }
 
+  stateSet = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  render() {
+    return (
+      <Router>
+<Navbar/>
+        <Switch>
+          <Route exact  path="/" component={Rafiul} />
+          <Route exact path="/omor/:id" component={Omor} />
 
-  
-  return (
-    <div className="mycontainer">
-     <h1>{state}</h1>
-     <button onClick={()=>dispatch(incrementAction(10))}>INC</button> <button   onClick={()=>dispatch(decrementAction(5))} >DEC</button>
-    </div>
-  )
+        </Switch>
+      </Router>
+
+    );
+  }
 }
-export default App
+
+export default App;
